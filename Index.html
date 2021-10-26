@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Base HTML Code</title>
+    <meta charset="utf-8"/>	
+	<link rel='icon' href='img/favicon.ico' type='image/x-icon'>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" ></script>
+	<link rel="stylesheet" href="styles/styles.css">
+  </head>
+  
+  <body>
+		<header>
+			<h1 style="text-align:center; ">Hash Conversions with Binary and Decimal conversions</h1>
+			<hr>
+		</header>
+	<div class="content">
+	<div class="inputDiv">
+		<form>
+			<label for="input" class="text">Original String:</label>
+			<input type="text" name="input" class="input" id="input" autofocus="autofocus">
+			<input type="button" name="button" value="Submit" onclick="encrypt()"><br>
+			<span id="original"></span><br>
+		</form>
+	</div>
+	<div class="outputDiv">
+			<span class="text">AES Encrypted: </span>
+			<span id="AES"></span><br>
+			<span class="text">SHA256 Encrypted:</span>
+			<span id="SHA256"></span><br>
+			<span class="text">SHA1 Encrypted:</span>
+			<span id="SHA1"></span><br>
+			<span class="text">SHA512 Encrypted:</span>
+			<span id="SHA512"></span><br>
+			
+			<script>
+				function encrypt(){
+					let string = document.getElementById("input").value;
+					let password = string;
+					
+					if(string.length == 0)
+						alert("Input is blank, please enter information.");
+					else{
+						let stringAES = CryptoJS.AES.encrypt(string,password);
+						let stringSHA256 = CryptoJS.HmacSHA256(string,password);
+						let stringSHA1 = CryptoJS.HmacSHA1(string,password);
+						let stringSHA512 = CryptoJS.HmacSHA512(string,password);
+				
+						document.getElementById("original").innerHTML = string;
+						document.getElementById("AES").innerHTML = stringAES;
+						document.getElementById("SHA256").innerHTML = stringSHA256;
+						document.getElementById("SHA1").innerHTML = stringSHA1;
+						document.getElementById("SHA512").innerHTML = stringSHA512;
+					}
+				}
+			</script>
+			<hr>
+	</div>
+	<div class="binaryConversions">
+		<p class="p" style="font-size:18px;">I can also perform a decimal to binary conversion and a binary to decimal conversion. Simply select one of the options below!</p><br>
+		<input type="button" id="d2b" value="To binary" onclick="toBinary()" class="conversions">
+		<input type="button" id="b2d" value="To decimal" onclick="toDecimal()" class="conversions"><br>
+		<span id="conversion"></span>
+		<script>
+			function toBinary(){
+				let decimal = parseInt(prompt("Please enter a number",0));
+				var list = [];
+				var binary = "";
+				
+				if(!Number.isSafeInteger(decimal) || decimal < 0){
+					alert("Invalid input. Please try again.");
+				}
+				else if(decimal === 0){
+					binary = 0;
+				}
+				else{
+					let temp = decimal;
+					while((temp / 2) != 0){
+						if((temp % 2) === 1){
+							list.push(1);
+							temp = Math.floor(temp / 2);
+						}
+						else if((temp % 2) === 0){
+							list.push(0);
+							temp = Math.floor(temp / 2);
+						}
+					}
+					
+					for(let i = list.length; i > 0; i--){
+						binary += list.pop();
+					}
+				}
+				document.getElementById("conversion").innerHTML = "Decimal to Binary conversion of " + decimal + " is " + binary;
+			}
+			
+			function toDecimal(){
+				let binary = prompt("Please enter a binary value");
+				let size = binary.length - 1;
+				let num = 0;
+				
+				if(binary.length === 0){
+					alert("Invalid input. Try again.");
+				}
+				else{
+					for(let i = 0; i < binary.length; i++){
+						if(binary.charAt(i) != '1' && binary.charAt(i) != '0'){
+							alert("Invalid input. Must contain only 1s and 0s.");
+							break;
+						}
+						else{
+							for(let i = 0; i < binary.length; i++){
+								num += binary.charAt(i) * Math.pow(2, size);
+								size--;
+							}
+							document.getElementById("conversion").innerHTML = "Binary to Decimal conversion of " + binary + " is " + Math.floor(num);
+						}
+					}
+				}
+			}
+		</script>
+		</div>
+	</div>
+	
+	<footer style="font-size:15px; margin-bottom:15px;" class="footer"><hr>Welcome to my page my friend! <img src="img/smile-beam-regular.svg" style="width:15px; height:15px;" alt="smileEmoji"></footer>
+  </body>
+ </html>

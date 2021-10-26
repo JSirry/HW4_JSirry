@@ -1,0 +1,33 @@
+html, body{
+	height:100%;
+}
+
+body{
+	background-color:rgba(192, 127, 212,.3);
+	display:flex;
+	flex-direction:column;
+}
+
+.content{
+	flex:1 0 auto;
+}
+
+.text{
+	font-weight:700;
+	font-size:18px;
+}
+
+input[type=button]{
+	width:10%;
+	background-color:lightblue;
+	border-radius:8px;
+	font-weight:700;
+}
+
+.binaryConversions{
+	text-align:center;
+}
+
+.footer{
+	flex-shrink:0;
+}
